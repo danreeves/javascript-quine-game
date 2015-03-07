@@ -40,6 +40,7 @@ function run () {
     x = x.replace(p1, '');
     x = putXY(x,p);
     c.innerHTML = x;
+    s.innerHTML = x;
     requestAnimationFrame(run);
 }
 function putXY (x,p) {
@@ -67,7 +68,6 @@ function move () {
     }
 }
 window.onkeydown = function (e) {
-    if (e) e.preventDefault();
     switch (e.keyCode) {
         case 37:
             key = 'LEFT';
