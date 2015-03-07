@@ -21,27 +21,47 @@
 </head>
 <body>
     <pre id="canvas"></pre>
-    <script id="s">$ = function (e) { return document.querySelector(e); }
+    <script id="s">
+$ = function (e) { return document.querySelector(e); }
 $$ = function (e) { return document.querySelectorAll(e); }
 c = $('#canvas');
 s = $('#s');
 key = '';
 p1 = /\/\/\>\|\o/;
 atChar = s.innerHTML.search(p1);
-xy = [0,0];
+var loc = s.innerHTML.slice(0, atChar+3).split(/\r\n|\r|\n/);
+xy = [loc.length-1, loc[loc.length-1].length]
 c.style.height = window.innerWidth + 'px';
 c.style.width = window.innerHeight + 'px';
 c.style.top = '-' + window.getComputedStyle(c).marginLeft; //>|o
 function run () {
     var x = s.innerHTML;
+    var p = (x.match(p1) != null) ? x.match(p1)[0] : '';
+    move();
+    x = x.replace(p1, '');
+    x = putXY(x,p);
     c.innerHTML = x;
-    getXY();
     requestAnimationFrame(run);
 }
-function getXY () {
-    var t = c.innerHTML,
-        loc = t.slice(0, atChar+3).split(/\r\n|\r|\n/)
-    xy = [loc.length, loc[loc.length-1].length]
+function putXY (x,p) {
+    var c = x.split(/\r\n|\r|\n/);
+    var current = c[xy[0]];
+    var before = current.substring(0, xy[1]);
+    var after = current.substring(xy[1]+5, current.length);
+    c[xy[0]] = before + p + after;
+    return c.join('\n');
+}
+function move () {
+    switch (key) {
+        case 'LEFT':
+            xy[0] = xy[0]-1;
+            break;
+        case 'RIGHT':
+            xy[0] = xy[0]+1;
+            break;
+        default:
+            break;
+    }
 }
 window.onkeydown = function (e) {
     if (e) e.preventDefault();
@@ -63,7 +83,6 @@ window.onkeydown = function (e) {
     }
 };
 window.onkeyup = function () { key = ''; };
-
 requestAnimationFrame(run);
     </script>
 </body>
