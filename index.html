@@ -21,40 +21,50 @@
 </head>
 <body>
     <pre id="canvas"></pre>
-    <script id="s">
-        $ = function (e) { return document.querySelector(e); }
-        $$ = function (e) { return document.querySelectorAll(e); }
-        c = $('#canvas');
-        s = $('#s');
-        key = '';
-        c.style.height = window.innerWidth + 'px';
-        c.style.width = window.innerHeight + 'px';
-        c.style.top = '-' + window.getComputedStyle(c).marginLeft;
-        function run () {
-            c.innerHTML = s.innerHTML + key;
-            requestAnimationFrame(run);
-        }
-        window.onkeydown = function (e) {
-            if (e) e.preventDefault();
-            switch (e.keyCode) {
-                case 37:
-                    key = 'LEFT';
-                    break;
-                case 38:
-                    key = 'UP';
-                    break;
-                case 39:
-                    key = 'RIGHT';
-                    break;
-                case 40:
-                    key = 'DOWN';
-                    break;
-                default:
-                    break;
-            }
-        };
-        window.onkeyup = function () { key = ''; };
-        requestAnimationFrame(run);
+    <script id="s">$ = function (e) { return document.querySelector(e); }
+$$ = function (e) { return document.querySelectorAll(e); }
+c = $('#canvas');
+s = $('#s');
+key = '';
+p1 = /\/\/\>\|\o/;
+atChar = s.innerHTML.search(p1);
+xy = [0,0];
+c.style.height = window.innerWidth + 'px';
+c.style.width = window.innerHeight + 'px';
+c.style.top = '-' + window.getComputedStyle(c).marginLeft; //>|o
+function run () {
+    var x = s.innerHTML;
+    c.innerHTML = x;
+    getXY();
+    requestAnimationFrame(run);
+}
+function getXY () {
+    var t = c.innerHTML,
+        loc = t.slice(0, atChar+3).split(/\r\n|\r|\n/)
+    xy = [loc.length, loc[loc.length-1].length]
+}
+window.onkeydown = function (e) {
+    if (e) e.preventDefault();
+    switch (e.keyCode) {
+        case 37:
+            key = 'LEFT';
+            break;
+        case 38:
+            key = 'UP';
+            break;
+        case 39:
+            key = 'RIGHT';
+            break;
+        case 40:
+            key = 'DOWN';
+            break;
+        default:
+            break;
+    }
+};
+window.onkeyup = function () { key = ''; };
+
+requestAnimationFrame(run);
     </script>
 </body>
 </html>
