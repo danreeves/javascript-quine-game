@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quine Game</title>
+    <style>
+        #canvas {
+            margin: 0;
+            padding: 0;
+            display: block;
+            float: left;
+            margin-left: auto;
+            margin-right: auto;
+            transform: rotate(-90deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+    </style>
+</head>
+<body>
+    <pre id="canvas"></pre>
+    <script id="s">
+        $ = function (e) { return document.querySelector(e); }
+        $$ = function (e) { return document.querySelectorAll(e); }
+        c = $('#canvas');
+        s = $('#s');
+        key = '';
+        c.style.height = window.innerWidth + 'px';
+        c.style.width = window.innerHeight + 'px';
+        c.style.top = '-' + window.getComputedStyle(c).marginLeft;
+        function run () {
+            c.innerHTML = s.innerHTML + key;
+            requestAnimationFrame(run);
+        }
+        window.onkeydown = function (e) {
+            if (e) e.preventDefault();
+            switch (e.keyCode) {
+                case 37:
+                    key = 'LEFT';
+                    break;
+                case 38:
+                    key = 'UP';
+                    break;
+                case 39:
+                    key = 'RIGHT';
+                    break;
+                case 40:
+                    key = 'DOWN';
+                    break;
+                default:
+                    break;
+            }
+        };
+        window.onkeyup = function () { key = ''; };
+        requestAnimationFrame(run);
+    </script>
+</body>
+</html>
